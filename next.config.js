@@ -17,6 +17,7 @@ const nextConfig = {
   //   styledComponents: true,
   // },
   output: 'export',
+  basePath: '/test-app-opfs',
   reactStrictMode: true, // Recommended for the `pages` directory, default in `app`.
   images: {},
   webpack(config, { isServer }) {
