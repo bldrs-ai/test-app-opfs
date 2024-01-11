@@ -10,9 +10,12 @@ const OPFSTest = () => {
         // based on isProd, where the ternary resolves to using
         // import.meta in one branch but not the other.  It breaks ESM
         // modules in webpack somehow.
+        /*
         workerRef.current = isProd ?
             new Worker(new URL(`${window.location.protocol}//${window.location.host}/test-app-opfs/OPFSWorker.js`)) :
             new Worker(new URL('./OPFSWorker.js', import.meta.url));
+            */
+        workerRef.current = new Worker(new URL('./OPFSWorker.js', import.meta.url));
 
         // Handle messages received from the worker
         workerRef.current.onmessage = (event) => {
