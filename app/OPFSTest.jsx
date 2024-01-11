@@ -1,21 +1,18 @@
 import React, { useEffect, useRef } from 'react';
 
 
-const isProd = process.env.NODE_ENV === 'production';
-const workerFilename = 'OPFSWorker.js'
-
-
 const OPFSTest = () => {
     const workerRef = useRef();
 
     useEffect(() => {
-      const workerUrlStr = isProd ?
-            `http://${window.location.host}/test-app-opfs/${workerFilename}` :
-            `http://${window.location.host}/${workerFilename}`
-      console.log('workerUrlStr', workerUrlStr)
-      const workerUrl = new URL(workerUrlStr)
-        // Initialize the worker
-      workerRef.current = new Worker(workerUrl);
+        const isProd = process.env.NODE_ENV === 'production';
+        // Initialize the worker. NB: Cannot use a temp variable for URL
+        // based on isProd, where the ternary resolves to using
+        // import.meta in one branch but not the other.  It breaks ESM
+        // modules in webpack somehow.
+        workerRef.current = isProd ?
+            new Worker(new URL(`${window.location.protocol}//${window.location.host}/test-app-opfs/OPFSWorker.js`)) :
+            new Worker(new URL('./OPFSWorker.js', import.meta.url));
 
         // Handle messages received from the worker
         workerRef.current.onmessage = (event) => {
