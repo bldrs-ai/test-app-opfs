@@ -1,11 +1,19 @@
 import React, { useEffect, useRef } from 'react';
 
+
+const isProd = process.env.NODE_ENV === 'production';
+const workerFilename = 'OPFSWorker.js'
+
+
 const OPFSTest = () => {
     const workerRef = useRef();
 
     useEffect(() => {
+      const workerUrl = isProd ?
+            new URL(`//${window.location.hostname}/test-app-opfs/${workerFilename}`) :
+            new URL(`./${workerFilename}`, import.meta.url)
         // Initialize the worker
-        workerRef.current = new Worker(new URL('./OPFSWorker.js', import.meta.url));
+      workerRef.current = new Worker(workerUrl);
 
         // Handle messages received from the worker
         workerRef.current.onmessage = (event) => {

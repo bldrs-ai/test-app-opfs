@@ -12,7 +12,7 @@
   "scripts": {
     "lint": "next lint --fix --dir app",
     "dev": "next dev",
-    "build": "rm -rf docs ; next build && mv out docs",
+    "build": "rm -rf docs ; NODE_ENV=production next build && mv out docs",
     "analyze": "ANALYZE=true next build",
     "start": "next start"
   },

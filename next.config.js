@@ -2,13 +2,16 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 
+
+const isProd = process.env.NODE_ENV === 'production';
+
 /**
  * A fork of 'next-pwa' that has app directory support
  * @see https://github.com/shadowwalker/next-pwa/issues/424#issuecomment-1332258575
  */
 const withPWA = require('@ducanh2912/next-pwa').default({
   dest: 'public',
-  disable: process.env.NODE_ENV === 'development',
+  disable: !isProd
 })
 
 const nextConfig = {
@@ -16,8 +19,6 @@ const nextConfig = {
   // compiler: {
   //   styledComponents: true,
   // },
-  output: 'export',
-  basePath: '/test-app-opfs',
   reactStrictMode: true, // Recommended for the `pages` directory, default in `app`.
   images: {},
   webpack(config, { isServer }) {
@@ -53,6 +54,11 @@ const nextConfig = {
 
     return config
   },
+}
+
+// TODO(pablo): in dev, can't just be undefined.  key can't be present either
+if (isProd) {
+  nextConfig['output'] = 'export'
 }
 
 const KEYS_TO_OMIT = ['webpackDevMiddleware', 'configOrigin', 'target', 'analyticsId', 'webpack5', 'amp', 'assetPrefix']
