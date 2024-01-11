@@ -9,9 +9,11 @@ const OPFSTest = () => {
     const workerRef = useRef();
 
     useEffect(() => {
-      const workerUrl = isProd ?
-            new URL(`//${window.location.hostname}/test-app-opfs/${workerFilename}`) :
-            new URL(`./${workerFilename}`, import.meta.url)
+      const workerUrlStr = isProd ?
+            `http://${window.location.host}/test-app-opfs/${workerFilename}` :
+            `http://${window.location.host}/${workerFilename}`
+      console.log('workerUrlStr', workerUrlStr)
+      const workerUrl = new URL(workerUrlStr)
         // Initialize the worker
       workerRef.current = new Worker(workerUrl);
 
