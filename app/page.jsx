@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
-import OPFSTest from './OPFSTest';
+import OPFSTest from './OPFSTest'
 
 const Logo = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Logo), { ssr: false })
 const Dog = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Dog), { ssr: false })
@@ -28,7 +28,11 @@ export default function Page() {
   return (
     <>
       <div className='mx-auto flex w-full flex-col flex-wrap items-center md:flex-row  lg:w-4/5'>
-        <OPFSTest />
+        {/* jumbo */}
+        <div className='flex w-full flex-col items-start justify-center p-12 text-center md:w-2/5 md:text-left'>
+          <p className='w-full uppercase'>Next + React Three Fiber</p>
+          <OPFSTest/>
+        </div>
       </div>
     </>
   )
